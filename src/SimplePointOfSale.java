@@ -85,7 +85,8 @@ public class SimplePointOfSale
 				catch (InputMismatchException e) 
 				{
 					System.out.println("Złe dane wejściowe !!");
-					System.out.println("Jesli chcesz zakonczyc zakupy wcisnij 0 [dowolny klawisz aby kontynuować]");
+					state = 0;
+					//System.out.println("Jesli chcesz zakonczyc zakupy wcisnij 0 [dowolny klawisz aby kontynuować]");
 				}
 				break;
 			case 2:			// PODSUMOWANIE ZAKUPOW
@@ -134,6 +135,7 @@ public class SimplePointOfSale
 		}
 	}
 
+	
 	
 	
 	
