@@ -4,16 +4,30 @@ import java.util.List;
 import java.util.Random;
 import java.util.Scanner;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.Date;
+
+
 /*------------------------------ 		INFORMACJE DOTYCZACE OBSLUGI PROGRAMU		--------------------------------- 
  *																													* 
  * 		NA POCZATKU PROGRAMU WYSWIETLONA ZOSTAJE LISTA WSZYSTKICH PRODUKTOW JAKIE ZNAJDUJA SIE W BAZIE DANYCH		*
  * 																													*
- * 		AKTUALNIE BAZA KODÓW KRESKOWYCH JEST W PRZEDZIALE OD 1 DO 100												*
+ * 		AKTUALNIE BAZA KODÓW KRESKOWYCH JEST W PRZEDZIALE OD 1 DO 100	[ baza w formie listy ]						*
  * 																													*
- * 		CZYTANIE KODOW KRESKOWYCH POLEGA NA WPISANU PRZEZ UZYTKOWNIKA KODU KRESKOWEGO (DOWOLNA LICZBA CAŁKOWITA)	*
+ * 		CZYTANIE KODOW KRESKOWYCH POLEGA NA WPISANU PRZEZ UZYTKOWNIKA KODU KRESKOWEGO 								*
+ * 																													*	
+ * 		POPRAWNY KOD KRESKOWY TO LICZBA DOWOLNA LICZBA CAŁKOWITA													*
  * 																													*
 ---------------------------------------------------------------------------------------------------------------------
  */
+
+
+
 public class SimplePointOfSale
 {
 	 static List<Product> productsList = new ArrayList<Product>();
@@ -23,12 +37,53 @@ public class SimplePointOfSale
 
 	public static void main(String[] args) 
 	{
-	//	Scanner reader = new Scanner(System.in); 
-		initProductsList();	// stworzenie pozorowanej bazy danych
-		System.out.println("PRODUKT	    CENA[zl]	 KOD ");
-		showProductsList();
-		int tempCode=-1;
+		/*
+		 *	POCZATEK KONFIGUROWANIA POLACZENIA Z BAZA DANYCH 
+		 */
+
+			Connection connection = null;
+			Statement statement = null;
+			PreparedStatement preparedStatement = null;
+			ResultSet resultSet = null;
+			String url = "jdbc:mysql://localhost:3306/db_pointofsale?autoReconnect=true&useSSL=false";
+			String username = "root";
+			String password = "";
+			if(connection == null)
+			{
+				System.out.println("Connecting database...");
+
+				try 
+				{
+					try
+					{
+						Class.forName("com.mysql.jdbc.Driver");
+						System.out.println("Driver loaded!");
+					} catch (ClassNotFoundException e)
+					{
+						e.printStackTrace();
+					}
+					connection = DriverManager.getConnection(url,username,password);
+					
+				    System.out.println("Database connected!");System.out.println();
+				} 
+				catch (SQLException e)
+				{
+				    throw new IllegalStateException("Cannot connect the database!", e);
+				}			
+			}
+
+		/*
+		 *   KONIEC KONFIGURACJI 
+		*/
 		
+		
+		
+		
+		
+		initProductsList();	// stworzenie pozorowanej bazy danych, w przyszlosci baze danych chce umiescic na localhoscie
+	//	System.out.println("PRODUKT	    CENA[zl]	 KOD ");
+	//	showProductsList();
+		int tempCode=-1;
 		int state=0;
 		while(true)
 		{
@@ -40,20 +95,14 @@ public class SimplePointOfSale
 				System.out.print("PODAJ KOD KRESKOWY PRODUKTU: ");
 				try
 				{
-					
 					tempCode = reader.nextInt();
 					state=1;
 				}
 				catch (InputMismatchException e ) 
 				{
 					System.out.println("Nieprawidłwy kod kreskowy, sprubuj jeszcze raz");
-					state=4;
-					
-				}
-				catch (IllegalStateException e) 
-				{
-					System.out.println("IllegalStateException");
-					state=4;
+					state=0;
+					break;
 				}
 				break;
 			case 1:	// ROZPOCZECIE CZYTANIA KODOW KRESKOWYCH
@@ -86,12 +135,10 @@ public class SimplePointOfSale
 				{
 					System.out.println("Złe dane wejściowe !!");
 					state = 0;
-					//System.out.println("Jesli chcesz zakonczyc zakupy wcisnij 0 [dowolny klawisz aby kontynuować]");
 				}
 				break;
-			case 2:			// PODSUMOWANIE ZAKUPOW
+			case 2:		// PODSUMOWANIE ZAKUPOW
 				System.out.println("Podsumowanie zakupów: ");
-			//	double suma=0;
 				for(int i=0;i<purchasedProductsList.size(); i++)
 				{
 					suma+=purchasedProductsList.get(i).price;
@@ -103,14 +150,12 @@ public class SimplePointOfSale
 				System.out.println("Jesli chcesz zakonczyc program wcisnij 0 [dowolny klawisz aby kontynuować]");
 				try
 				{
-					
 					tempCode = reader.nextInt();
-					
 				}
 				catch (InputMismatchException e ) 
 				{
 					System.out.println("Nieprawidłwy kod kreskowy, sprubuj jeszcze raz");
-					state=4;
+					state=0;
 					break;
 				}
 				if(tempCode == 0)
@@ -119,14 +164,9 @@ public class SimplePointOfSale
 				}
 				else state = 0;
 				break;
-			case 3:			// ZAKONCZENIE PROGRAMU	
+			case 3:		// ZAKONCZENIE PROGRAMU	
 				System.out.println("Program zakończony...");
 				System.exit(0);
-				break;
-			case 4:			// ZAKONCZENIE PROGRAMU	
-				System.out.println("Error message... ");
-				//reader.close();
-				state=0;
 				break;
 			default:
 				state=0;
