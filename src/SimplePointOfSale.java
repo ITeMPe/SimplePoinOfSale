@@ -71,7 +71,25 @@ public class SimplePointOfSale
 				    throw new IllegalStateException("Cannot connect the database!", e);
 				}			
 			}
-
+			
+			try
+			{
+				statement = connection.createStatement();
+			} catch (SQLException e1)
+			{
+				e1.printStackTrace();
+			}
+			
+			try
+			{
+				resultSet = statement.executeQuery("SELECT * FROM products");
+			} catch (SQLException e1)
+			{
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+			
+			System.out.println(resultSet);
 		/*
 		 *   KONIEC KONFIGURACJI 
 		*/
