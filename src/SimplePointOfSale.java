@@ -89,6 +89,7 @@ public class SimplePointOfSale
 				e1.printStackTrace();
 			}
 			
+			
 			try
 			{
 				System.out.println("id  Product_name  price  code");
