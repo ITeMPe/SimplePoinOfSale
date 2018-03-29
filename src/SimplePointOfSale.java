@@ -82,14 +82,56 @@ public class SimplePointOfSale
 			
 			try
 			{
-				resultSet = statement.executeQuery("SELECT * FROM products");
+				String query = "SELECT Product_id, Product_name, Product_price, Product_code FROM products";
+				resultSet = statement.executeQuery(query);
+			} catch (SQLException e1)
+			{
+				e1.printStackTrace();
+			}
+			
+			try
+			{
+				System.out.println("id  Product_name  price  code");
+				while(resultSet.next())
+				{
+					System.out.print(resultSet.getString("Product_id"));System.out.print("  ");
+					System.out.print(resultSet.getString("Product_name"));System.out.print("  ");
+					System.out.print(resultSet.getString("Product_price"));System.out.print("  ");
+					System.out.println(resultSet.getString("Product_code"));System.out.print("  ");
+				}
+				System.out.println();
+			//System.out.println(resultSet.getInt("Product_id"+" : "+resultSet.getString("Product_name")+" : "+resultSet.getDouble("Product_price")+" : "+resultSet.getInt("Product_code")));
+			} catch (SQLException e2)
+			{
+				e2.printStackTrace();
+			}
+			
+			
+			
+			try
+			{
+				resultSet.close();
 			} catch (SQLException e1)
 			{
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
-			
-			System.out.println(resultSet);
+			try
+			{
+				statement.close();
+			} catch (SQLException e1)
+			{
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+			try
+			{
+				connection.close();
+			} catch (SQLException e1)
+			{
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
 		/*
 		 *   KONIEC KONFIGURACJI 
 		*/
