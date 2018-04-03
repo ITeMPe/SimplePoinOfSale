@@ -566,13 +566,6 @@ public class SimplePointOfSale
 		
 		
 		
-		
-	static void tempfu()
-	{
-		
-		
-		
-		
-	}
+
 }
 
