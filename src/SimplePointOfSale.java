@@ -148,17 +148,13 @@ public class SimplePointOfSale
 		 *   KONIEC KONFIGURACJI 
 		*/
 		
-		
-		
-		
-		
-		
+
 	//	System.out.println("PRODUKT	    CENA[zl]	 KOD ");
 		showProductFrom_DataBase();
 		
 		
 		
-		addNewProductTo_DataBase();
+	//	addNewProductTo_DataBase();
 	//	showProductsList();
 		int tempCode=-1;
 		int state=0;
@@ -197,6 +193,20 @@ public class SimplePointOfSale
 				if(!findProduct)
 				{
 					System.out.println("Nie znaleziono takiego produktu w naszej bazie danych, przepraszamy...");
+					System.out.println("Jesli chcesz dodac nowy prodkukt wybierz 1");
+					try
+					{
+						tempCode = reader.nextInt();
+						if(tempCode == 1)
+						{
+							addNewProductTo_DataBase();
+						}
+					} catch (Exception e)
+					{
+						e.getMessage();
+					}
+					
+					
 				}
 				System.out.println("Jesli chcesz zakonczyc zakupy wcisnij 0 [dowolny klawisz aby kontynuować]");
 				try
@@ -252,6 +262,7 @@ public class SimplePointOfSale
 		}
 	}
 
+	
 	
 	
 	
@@ -371,6 +382,7 @@ public class SimplePointOfSale
 		
 		static void addNewProductTo_DataBase()
 		{
+			int state = 0;
 			String newName=null;
 			double newPrice=0;
 			int newCode=-1;
@@ -393,12 +405,12 @@ public class SimplePointOfSale
 					{
 						Class.forName("com.mysql.jdbc.Driver");
 						System.out.println("Driver loaded!");
-					} catch (ClassNotFoundException e)
+					} 
+					catch (ClassNotFoundException e)
 					{
 						e.printStackTrace();
 					}
 					connection = DriverManager.getConnection(url,username,password);
-					
 				    System.out.println("Database connected!");System.out.println();
 				} 
 				catch (SQLException e)
@@ -414,6 +426,11 @@ public class SimplePointOfSale
 			{
 				e1.printStackTrace();
 			}
+			while(state != 5)
+			{
+				switch (state)
+				{
+				case 0:
 						System.out.println("Podaj nazwe nowego produktu:");
 						try
 						{
@@ -438,21 +455,30 @@ public class SimplePointOfSale
 							{
 									System.out.println("Taki produkt juz istnieje !!");
 							}
-							else System.out.println("Nie ma tego produktu w bazie danych, można go dodać !!");
+							else
+							{
+								System.out.println("Nie ma tego produktu w bazie danych, można go dodać !!");
+								state = 1;
+							}
 						} 
 						catch (SQLException e2)
 						{
 							e2.printStackTrace();
 						}
+					break;
+				case 1:
 						System.out.println("Podaj cene nowego produktu:");
 						try
 						{
 							newPrice = reader.nextDouble();
+							state = 2;
 						} 
 						catch (Exception e)
 						{
 							e.getMessage();
 						}
+					break;
+				case 2:
 						System.out.println("Podaj kod nowego produktu:");
 						try
 						{
@@ -475,15 +501,40 @@ public class SimplePointOfSale
 						{
 							if(resultSet.next())
 							{
-									System.out.println("Taki KOD juz istnieje, nie można dodać tego produku z takim kodem !!");
+									System.out.println("Taki KOD juz istnieje, nie można dodać tego produku z takim kodem !!\nPodaj inny kod !");
 							}
 							else
-							System.out.println("Nie ma tego KODU w bazie danych, można go dodać !!");
+							{
+								System.out.println("Nie ma tego KODU w bazie danych, można go dodać !!");
+								state = 3;
+							}
+							
 						} 
 						catch (SQLException e2)
 						{
 							e2.printStackTrace();
 						}
+					break;
+				case 3:
+					 query = "INSERT INTO `products`(`Product_name`, `Product_price`, `Product_code`) VALUES ('"+newName+"',"+newPrice+","+newCode+")";
+					try
+					{
+						statement.executeUpdate(query);
+						System.out.println("Dodano nowy produkt do bazy danych !! Gratulacje :)");
+						productsList.add(new Product(newName, newPrice, newCode));
+						state=5;
+					} 
+					catch (SQLException e2)
+					{
+						e2.printStackTrace();
+					}
+					break;
+				default:
+					break;
+				}
+			}			
+
+						
 						
 						
 			
@@ -498,19 +549,31 @@ public class SimplePointOfSale
 			try
 			{
 				statement.close();
-			} catch (SQLException e1)
+			}
+			catch (SQLException e1)
 			{
 				e1.printStackTrace();
 			}
 			try
 			{
 				connection.close();
-			} catch (SQLException e1)
+			}
+			catch (SQLException e1)
 			{
 				e1.printStackTrace();
 			}
 		}
 		
 		
+		
+		
+		
+	static void tempfu()
+	{
+		
+		
+		
+		
+	}
 }
 
