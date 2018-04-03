@@ -210,6 +210,7 @@ public class SimplePointOfSale
 						// TODO: handle exception
 					}
 					
+					
 				}
 				System.out.println("Jesli chcesz zakonczyc zakupy wcisnij 0 [dowolny klawisz aby kontynuować]");
 				try
