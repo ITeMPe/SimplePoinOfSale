@@ -148,11 +148,7 @@ public class SimplePointOfSale
 		 *   KONIEC KONFIGURACJI 
 		*/
 		
-		
-		
-		
-		
-		
+
 	//	System.out.println("PRODUKT	    CENA[zl]	 KOD ");
 		showProductFrom_DataBase();
 		
@@ -568,5 +564,12 @@ public class SimplePointOfSale
 		}
 		
 		
+		
+		
+		
+	static void tempfu()
+	{
+		
+	}
 }
 
