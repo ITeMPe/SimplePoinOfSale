@@ -203,7 +203,7 @@ public class SimplePointOfSale
 						}
 					} catch (Exception e)
 					{
-						// TODO: handle exception
+						e.getMessage();
 					}
 					
 					
@@ -262,6 +262,7 @@ public class SimplePointOfSale
 		}
 	}
 
+	
 	
 	
 	
