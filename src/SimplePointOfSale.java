@@ -78,7 +78,7 @@ public class SimplePointOfSale
 			{
 				e1.printStackTrace();
 			}
-			
+			/*
 			for(int i=0; i<productsList.size(); i++)
 			{
 				String query = "INSERT INTO `products`(`Product_name`, `Product_price`, `Product_code`) VALUES ('"+productsList.get(i).name+"',"+productsList.get(i).price+","+productsList.get(i).code+")";
@@ -91,7 +91,7 @@ public class SimplePointOfSale
 					e2.printStackTrace();
 				}
 			}
-		
+		*/
 			try
 			{
 				String query = "SELECT * FROM products";
