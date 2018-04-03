@@ -37,10 +37,10 @@ public class SimplePointOfSale
 
 	public static void main(String[] args) 
 	{
+		initProductsList();	// stworzenie pozorowanej bazy danych, w przyszlosci baze danych chce umiescic na localhoscie
 		/*
 		 *	POCZATEK KONFIGUROWANIA POLACZENIA Z BAZA DANYCH 
 		 */
-
 			Connection connection = null;
 			Statement statement = null;
 			PreparedStatement preparedStatement = null;
@@ -71,7 +71,6 @@ public class SimplePointOfSale
 				    throw new IllegalStateException("Cannot connect the database!", e);
 				}			
 			}
-			
 			try
 			{
 				statement = connection.createStatement();
@@ -80,16 +79,28 @@ public class SimplePointOfSale
 				e1.printStackTrace();
 			}
 			
+			for(int i=0; i<productsList.size(); i++)
+			{
+				String query = "INSERT INTO `products`(`Product_name`, `Product_price`, `Product_code`) VALUES ('"+productsList.get(i).name+"',"+productsList.get(i).price+","+productsList.get(i).code+")";
+				try
+				{
+					statement.executeUpdate(query);
+				} 
+				catch (SQLException e2)
+				{
+					e2.printStackTrace();
+				}
+			}
+		
 			try
 			{
-				String query = "SELECT Product_id, Product_name, Product_price, Product_code FROM products";
+				String query = "SELECT * FROM products";
 				resultSet = statement.executeQuery(query);
-			} catch (SQLException e1)
+			} 
+			catch (SQLException e1)
 			{
 				e1.printStackTrace();
 			}
-			
-			
 			try
 			{
 				System.out.println("id  Product_name  price  code");
@@ -101,20 +112,18 @@ public class SimplePointOfSale
 					System.out.println(resultSet.getString("Product_code"));System.out.print("  ");
 				}
 				System.out.println();
-			//System.out.println(resultSet.getInt("Product_id"+" : "+resultSet.getString("Product_name")+" : "+resultSet.getDouble("Product_price")+" : "+resultSet.getInt("Product_code")));
-			} catch (SQLException e2)
+			} 
+			catch (SQLException e2)
 			{
 				e2.printStackTrace();
 			}
-			
-			
-			
+
+			// closing
 			try
 			{
 				resultSet.close();
 			} catch (SQLException e1)
 			{
-				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
 			try
@@ -122,7 +131,6 @@ public class SimplePointOfSale
 				statement.close();
 			} catch (SQLException e1)
 			{
-				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
 			try
@@ -130,7 +138,6 @@ public class SimplePointOfSale
 				connection.close();
 			} catch (SQLException e1)
 			{
-				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
 		/*
@@ -141,7 +148,7 @@ public class SimplePointOfSale
 		
 		
 		
-		initProductsList();	// stworzenie pozorowanej bazy danych, w przyszlosci baze danych chce umiescic na localhoscie
+		
 	//	System.out.println("PRODUKT	    CENA[zl]	 KOD ");
 	//	showProductsList();
 		int tempCode=-1;
