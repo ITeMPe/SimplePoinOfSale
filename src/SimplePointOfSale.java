@@ -4,6 +4,8 @@ import java.util.List;
 import java.util.Random;
 import java.util.Scanner;
 
+import org.w3c.dom.NamedNodeMap;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -40,7 +42,7 @@ public class SimplePointOfSale
 		initProductsList();	// stworzenie pozorowanej bazy danych, w przyszlosci baze danych chce umiescic na localhoscie
 		/*
 		 *	POCZATEK KONFIGUROWANIA POLACZENIA Z BAZA DANYCH 
-		 */
+		 
 			Connection connection = null;
 			Statement statement = null;
 			PreparedStatement preparedStatement = null;
@@ -78,7 +80,8 @@ public class SimplePointOfSale
 			{
 				e1.printStackTrace();
 			}
-			/*
+			*/
+/*			
 			for(int i=0; i<productsList.size(); i++)
 			{
 				String query = "INSERT INTO `products`(`Product_name`, `Product_price`, `Product_code`) VALUES ('"+productsList.get(i).name+"',"+productsList.get(i).price+","+productsList.get(i).code+")";
@@ -91,7 +94,8 @@ public class SimplePointOfSale
 					e2.printStackTrace();
 				}
 			}
-		*/
+*/
+		/*
 			try
 			{
 				String query = "SELECT * FROM products";
@@ -150,6 +154,11 @@ public class SimplePointOfSale
 		
 		
 	//	System.out.println("PRODUKT	    CENA[zl]	 KOD ");
+		showProductFrom_DataBase();
+		
+		
+		
+		addNewProductTo_DataBase();
 	//	showProductsList();
 		int tempCode=-1;
 		int state=0;
@@ -264,6 +273,244 @@ public class SimplePointOfSale
 				System.out.print(productsList.get(i).name+"     ");System.out.print(productsList.get(i).price+"      ");System.out.println(productsList.get(i).code);
 			}
 		}
+		
+		
+		static void showProductFrom_DataBase()
+		{
+			Connection connection = null;
+			Statement statement = null;
+			PreparedStatement preparedStatement = null;
+			ResultSet resultSet = null;
+			String url = "jdbc:mysql://localhost:3306/db_pointofsale?autoReconnect=true&useSSL=false";
+			String username = "root";
+			String password = "";
+			if(connection == null)
+			{
+				System.out.println("Connecting database...");
+
+				try 
+				{
+					try
+					{
+						Class.forName("com.mysql.jdbc.Driver");
+						System.out.println("Driver loaded!");
+					} catch (ClassNotFoundException e)
+					{
+						e.printStackTrace();
+					}
+					connection = DriverManager.getConnection(url,username,password);
+					
+				    System.out.println("Database connected!");System.out.println();
+				} 
+				catch (SQLException e)
+				{
+				    throw new IllegalStateException("Cannot connect the database!", e);
+				}			
+			}
+			try
+			{
+				statement = connection.createStatement();
+			} catch (SQLException e1)
+			{
+				e1.printStackTrace();
+			}
+			
+					try
+					{
+						String query = "SELECT * FROM products";
+						resultSet = statement.executeQuery(query);
+					} 
+					catch (SQLException e1)
+					{
+						e1.printStackTrace();
+					}
+					try
+					{
+						System.out.println(" id  Product_name  price  code");System.out.print("   ");
+						while(resultSet.next())
+						{
+							System.out.print(resultSet.getString("Product_id"));System.out.print("   ");
+							System.out.print(resultSet.getString("Product_name"));System.out.print("   ");
+							System.out.print(resultSet.getString("Product_price"));System.out.print("   ");
+							System.out.println(resultSet.getString("Product_code"));System.out.print("   ");
+						}
+						System.out.println();
+					} 
+					catch (SQLException e2)
+					{
+						e2.printStackTrace();
+					}
+			// closing....
+			try
+			{
+				resultSet.close();
+			} catch (SQLException e1)
+			{
+				e1.printStackTrace();
+			}
+			try
+			{
+				statement.close();
+			} catch (SQLException e1)
+			{
+				e1.printStackTrace();
+			}
+			try
+			{
+				connection.close();
+			} catch (SQLException e1)
+			{
+				e1.printStackTrace();
+			}
+		}
+
+		
+		
+		
+		
+		
+		static void addNewProductTo_DataBase()
+		{
+			String newName=null;
+			double newPrice=0;
+			int newCode=-1;
+			Scanner reader = new Scanner(System.in);
+			
+			Connection connection = null;
+			Statement statement = null;
+			PreparedStatement preparedStatement = null;
+			ResultSet resultSet = null;
+			String url = "jdbc:mysql://localhost:3306/db_pointofsale?autoReconnect=true&useSSL=false";
+			String username = "root";
+			String password = "";
+			if(connection == null)
+			{
+				System.out.println("Connecting database...");
+
+				try 
+				{
+					try
+					{
+						Class.forName("com.mysql.jdbc.Driver");
+						System.out.println("Driver loaded!");
+					} catch (ClassNotFoundException e)
+					{
+						e.printStackTrace();
+					}
+					connection = DriverManager.getConnection(url,username,password);
+					
+				    System.out.println("Database connected!");System.out.println();
+				} 
+				catch (SQLException e)
+				{
+				    throw new IllegalStateException("Cannot connect the database!", e);
+				}			
+			}
+			try
+			{
+				statement = connection.createStatement();
+			} 
+			catch (SQLException e1)
+			{
+				e1.printStackTrace();
+			}
+						System.out.println("Podaj nazwe nowego produktu:");
+						try
+						{
+							newName = reader.next();
+						} 
+						catch (Exception e)
+						{
+							e.getMessage();
+						}
+						String query = "SELECT Product_name FROM `products` WHERE Product_name = '"+newName+"'";
+						try
+						{
+							resultSet = statement.executeQuery(query);
+						} 
+						catch (SQLException e2)
+						{
+							e2.printStackTrace();
+						}
+						try
+						{
+							if(resultSet.next())
+							{
+									System.out.println("Taki produkt juz istnieje !!");
+							}
+							else System.out.println("Nie ma tego produktu w bazie danych, można go dodać !!");
+						} 
+						catch (SQLException e2)
+						{
+							e2.printStackTrace();
+						}
+						System.out.println("Podaj cene nowego produktu:");
+						try
+						{
+							newPrice = reader.nextDouble();
+						} 
+						catch (Exception e)
+						{
+							e.getMessage();
+						}
+						System.out.println("Podaj kod nowego produktu:");
+						try
+						{
+							newCode = reader.nextInt();
+						} 
+						catch (Exception e)
+						{
+							e.getMessage();
+						}
+						query = "SELECT Product_code FROM `products` WHERE Product_code = '"+newCode+"'";
+						try
+						{
+							resultSet = statement.executeQuery(query);
+						} 
+						catch (SQLException e2)
+						{
+							e2.printStackTrace();
+						}
+						try
+						{
+							if(resultSet.next())
+							{
+									System.out.println("Taki KOD juz istnieje, nie można dodać tego produku z takim kodem !!");
+							}
+							else
+							System.out.println("Nie ma tego KODU w bazie danych, można go dodać !!");
+						} 
+						catch (SQLException e2)
+						{
+							e2.printStackTrace();
+						}
+						
+						
+			
+			// closing....
+			try
+			{
+				resultSet.close();
+			} catch (SQLException e1)
+			{
+				e1.printStackTrace();
+			}
+			try
+			{
+				statement.close();
+			} catch (SQLException e1)
+			{
+				e1.printStackTrace();
+			}
+			try
+			{
+				connection.close();
+			} catch (SQLException e1)
+			{
+				e1.printStackTrace();
+			}
+		}
+		
 		
 }
 
