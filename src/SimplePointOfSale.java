@@ -538,6 +538,7 @@ public class SimplePointOfSale
 						
 						
 			
+			
 			// closing....
 			try
 			{
