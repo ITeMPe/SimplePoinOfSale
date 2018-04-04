@@ -37,6 +37,48 @@ public class SimplePointOfSale
 	 static Random gll = new Random();
 	
 
+	 
+	 
+
+
+	 static void createCon()
+	 {
+		 System.out.println("funkcja createCon");
+		 DataBaseConector dbCon = new DataBaseConector();
+		 dbCon.database_Conection();
+		 try
+			{
+				String query = "SELECT * FROM products";
+				dbCon.my_resultSet = dbCon.my_statement.executeQuery(query);
+			} 
+			catch (SQLException e1)
+			{
+				e1.printStackTrace();
+			}
+			try
+			{
+				System.out.println("id  Product_name  price  code");
+				while(dbCon.my_resultSet.next())
+				{
+					System.out.print(dbCon.my_resultSet.getString("Product_id"));System.out.print("  ");
+					System.out.print(dbCon.my_resultSet.getString("Product_name"));System.out.print("  ");
+					System.out.print(dbCon.my_resultSet.getString("Product_price"));System.out.print("  ");
+					System.out.println(dbCon.my_resultSet.getString("Product_code"));System.out.print("  ");
+				}
+				System.out.println();
+			} 
+			catch (SQLException e2)
+			{
+				e2.printStackTrace();
+			}
+		 
+		 
+	 }
+	 
+	 
+	 
+	 
+	 
 	public static void main(String[] args) 
 	{
 		initProductsList();	// stworzenie pozorowanej bazy danych, w przyszlosci baze danych chce umiescic na localhoscie
@@ -259,9 +301,13 @@ public class SimplePointOfSale
 				state=0;
 				break;
 			}
+			
 		}
+		
+		
 	}
 
+	
 	
 	
 	
