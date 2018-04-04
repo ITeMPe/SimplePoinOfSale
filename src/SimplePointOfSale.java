@@ -96,6 +96,26 @@ static void showProductsList()
 	}
 }
 
+static void initDataBase()
+{
+	initProductsList();
+	
+	DataBaseConnector dbCon = new DataBaseConnector();
+	dbCon.database_Conection();
+	for(int i=0; i<productsList.size(); i++)
+	{
+		String query = "INSERT INTO `products`(`Product_name`, `Product_price`, `Product_code`) VALUES ('"+productsList.get(i).name+"',"+productsList.get(i).price+","+productsList.get(i).code+")";
+		try
+		{
+			dbCon.my_statement.executeUpdate(query);
+		} 
+		catch (SQLException e2)
+		{
+			e2.printStackTrace();
+		}
+	}
+}
+
 		
 static void showProductFrom_DataBase()
 {
