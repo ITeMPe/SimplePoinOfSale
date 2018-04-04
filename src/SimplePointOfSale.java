@@ -573,6 +573,7 @@ public class SimplePointOfSale
 		 * 	
 		 * 		test commita w masterze !!  
 		 * 
+		 * 
 		 */
 
 }
