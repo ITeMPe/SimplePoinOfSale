@@ -335,6 +335,8 @@ static void addNewProductTo_DataBase()
  */
 	public static void main(String[] args) 
 	{
+		//initDataBase(); --> ta funkcja jest tylko po to zeby wygenerowac 100 produktow do bazy danych
+		
 		showProductFrom_DataBase();
 		int tempCode = -1;
 		int state = 0;
@@ -425,14 +427,11 @@ static void addNewProductTo_DataBase()
 			default:
 				state=0;
 				break;
-			}
+			}	
 			
 		}
-		
-		
+
 	}
-
-
-
+	
 }
 
