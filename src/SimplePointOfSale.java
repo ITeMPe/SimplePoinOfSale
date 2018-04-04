@@ -565,6 +565,13 @@ public class SimplePointOfSale
 			}
 		}
 		
+		
+		
+		/*
+		 * 
+		 * 		new main branch 
+		 * 
+		 */
 
 }
 
