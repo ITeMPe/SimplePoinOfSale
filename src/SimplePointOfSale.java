@@ -538,6 +538,7 @@ public class SimplePointOfSale
 						
 						
 			
+			
 			// closing....
 			try
 			{
@@ -566,14 +567,11 @@ public class SimplePointOfSale
 		
 		
 		
-		
-		
-	static void tempfu()
-	{
-		
-		
-		
-		
-	}
+		/*
+		 * 
+		 * 		new main branch 
+		 * 
+		 */
+
 }
 
