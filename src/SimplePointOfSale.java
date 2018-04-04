@@ -44,7 +44,7 @@ public class SimplePointOfSale
 	 static void createCon()
 	 {
 		 System.out.println("funkcja createCon");
-		 DataBaseConector dbCon = new DataBaseConector();
+		 DataBaseConnector dbCon = new DataBaseConnector();
 		 dbCon.database_Conection();
 		 try
 			{
