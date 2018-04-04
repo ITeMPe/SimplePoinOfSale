@@ -431,7 +431,6 @@ static void addNewProductTo_DataBase()
 			
 		}
 
-	}
-	
+
 }
 
