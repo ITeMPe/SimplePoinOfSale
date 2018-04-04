@@ -571,7 +571,7 @@ public class SimplePointOfSale
 		 * 
 		 * 		new main branch 
 		 * 	
-		 * 		test commita w masterze !! 
+		 * 		test commita w masterze !!  
 		 * 
 		 */
 
